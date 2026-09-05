@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "srmae/schemas/claim.json",
+  "title": "Claim",
+  "description": "A discrete assertion extracted from sources or produced by analysis. confidence MUST NOT be raised without recorded evidence in provenance. status is the epistemic ladder state.",
+  "type": "object",
+  "required": ["id", "version", "created_at", "created_by", "provenance", "claim_id", "statement", "source_ids", "confidence", "status", "epistemic_state"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^CLM-[0-9]{5}$"},
+    "claim_id": {"type": "string", "pattern": "^CLM-[0-9]{5}$", "description": "Alias of id."},
+    "version": {"type": "integer", "minimum": 1},
+    "created_at": {"type": "string"},
+    "created_by": {"type": "string"},
+    "provenance": {"type": "array", "items": {"type": "string"}},
+    "statement": {"type": "string"},
+    "source_ids": {"type": "array", "items": {"type": "string", "pattern": "^SRC-[0-9]{5}$"}},
+    "hypothesis_ids": {"type": "array", "items": {"type": "string", "pattern": "^HYP-[0-9]{5}$"}},
+    "experiment_ids": {"type": "array", "items": {"type": "string", "pattern": "^EXP-[0-9]{5}$"}},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "status": {
+      "type": "string",
+      "enum": ["UNVERIFIED", "LITERATURE_SUPPORTED", "EXPERIMENTALLY_TESTED", "REPRODUCED", "ROBUST", "ADVERSARIALLY_CHALLENGED", "HUMAN_REVIEWED", "WEAK_EVIDENCE", "INCONCLUSIVE", "CONTRADICTED", "FAILED_REPLICATION", "FALSIFIED", "BLOCKED"]
+    },
+    "epistemic_state": {
+      "type": "string",
+      "enum": ["UNVERIFIED", "LITERATURE_SUPPORTED", "EXPERIMENTALLY_TESTED", "REPRODUCED", "ROBUST", "ADVERSARIALLY_CHALLENGED", "HUMAN_REVIEWED", "WEAK_EVIDENCE", "INCONCLUSIVE", "CONTRADICTED", "FAILED_REPLICATION", "FALSIFIED", "BLOCKED"]
+    },
+    "falsification_conditions": {"type": "array", "items": {"type": "string"}},
+    "alternative_explanations": {"type": "array", "items": {"type": "string"}},
+    "human_decision": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "checkpoint": {"type": "string", "enum": ["RESEARCH_QUESTION", "HYPOTHESIS", "PROTOCOL", "MAJOR_EXPERIMENT_BRANCH", "FINAL_CONCLUSION"]},
+        "decision": {"type": "string"},
+        "by": {"type": "string"},
+        "ts": {"type": "string"},
+        "rationale": {"type": "string"}
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "srmae/schemas/experiment.json",
+  "title": "Experiment",
+  "description": "A concrete execution derived from a protocol. seed/env/deps/params are recorded for reproducibility. Failed runs are kept, never deleted.",
+  "type": "object",
+  "required": ["id", "version", "created_at", "created_by", "provenance", "protocol_id", "kind", "runs", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^EXP-[0-9]{5}$"},
+    "version": {"type": "integer", "minimum": 1},
+    "created_at": {"type": "string"},
+    "created_by": {"type": "string"},
+    "provenance": {"type": "array", "items": {"type": "string"}},
+    "protocol_id": {"type": "string", "pattern": "^PRO-[0-9]{5}$"},
+    "kind": {
+      "type": "string",
+      "enum": ["replication", "repetition", "independent_replication", "parameter_sweep", "control", "negative_control", "positive_control"]
+    },
+    "code_ref": {"type": ["string", "null"], "description": "Commit/hash or path to the exact code executed."},
+    "params": {"type": "object"},
+    "seed": {"type": ["integer", "string", "null"]},
+    "env": {"type": ["object", "string", "null"]},
+    "deps": {"type": ["array", "object", "null"], "items": {"type": "string"}},
+    "runs": {"type": "integer", "minimum": 1},
+    "artifacts": {"type": "array", "items": {"type": "string"}},
+    "status": {
+      "type": "string",
+      "enum": ["planned", "running", "completed", "failed", "aborted"]
+    }
+  }
+}

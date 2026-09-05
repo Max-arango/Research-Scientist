@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "srmae/schemas/result.json",
+  "title": "Result",
+  "description": "The recorded output of an experiment. observations[] are Value objects; a RESULT-kind Value with empty support is invalid. Never fabricate measurements.",
+  "type": "object",
+  "required": ["id", "version", "created_at", "created_by", "provenance", "experiment_id", "observations", "status"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^RES-[0-9]{5}$"},
+    "version": {"type": "integer", "minimum": 1},
+    "created_at": {"type": "string"},
+    "created_by": {"type": "string"},
+    "provenance": {"type": "array", "items": {"type": "string"}},
+    "experiment_id": {"type": "string", "pattern": "^EXP-[0-9]{5}$"},
+    "raw_ref": {"type": ["string", "null"], "description": "Pointer to preserved raw output; originals are never overwritten."},
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "content", "support"],
+        "additionalProperties": false,
+        "properties": {
+          "kind": {"type": "string", "enum": ["FACT", "INFERENCE", "HYPOTHESIS", "RESULT", "INTERPRETATION", "OPINION", "UNKNOWN", "UNCERTAIN", "CONTRADICTED"]},
+          "content": {},
+          "support": {"type": "array", "items": {"type": "string"}},
+          "note": {"type": "string"}
+        }
+      }
+    },
+    "metrics": {"type": "object"},
+    "anomalies": {"type": "array", "items": {"type": "string"}},
+    "status": {"type": "string", "enum": ["completed", "failed", "partial", "anomalous"]}
+  }
+}

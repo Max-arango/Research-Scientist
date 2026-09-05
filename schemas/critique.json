@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "srmae/schemas/critique.json",
+  "title": "Critique",
+  "description": "Adversarial falsification attempt against a target object. falsification_status=not_falsified is NOT a proof of truth.",
+  "type": "object",
+  "required": ["id", "version", "created_at", "created_by", "provenance", "target_id", "severity", "issues", "falsification_status"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^CRT-[0-9]{5}$"},
+    "version": {"type": "integer", "minimum": 1},
+    "created_at": {"type": "string"},
+    "created_by": {"type": "string"},
+    "provenance": {"type": "array", "items": {"type": "string"}},
+    "target_id": {"type": "string", "description": "Id of the CLAIM/HYPOTHESIS/RESULT/VERDICT being challenged."},
+    "severity": {"type": "string", "enum": ["low", "medium", "high", "critical"]},
+    "issues": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "alternative_explanations": {"type": "array", "items": {"type": "string"}},
+    "counterexamples": {"type": "array", "items": {"type": "string"}},
+    "recommended_tests": {"type": "array", "items": {"type": "string"}},
+    "falsification_status": {"type": "string", "enum": ["not_attempted", "not_falsified", "falsified"]}
+  }
+}

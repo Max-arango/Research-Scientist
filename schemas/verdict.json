@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "srmae/schemas/verdict.json",
+  "title": "Verdict",
+  "description": "Proposed conclusion about a claim. NOT_FALSIFIED is explicitly NOT equal to true. A verdict is only final after human_reviewed at the FINAL_CONCLUSION checkpoint.",
+  "type": "object",
+  "required": ["id", "version", "created_at", "created_by", "provenance", "claim_id", "verdict_status", "evidence_state", "rationale", "human_reviewed"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^VER-[0-9]{5}$"},
+    "version": {"type": "integer", "minimum": 1},
+    "created_at": {"type": "string"},
+    "created_by": {"type": "string"},
+    "provenance": {"type": "array", "items": {"type": "string"}},
+    "claim_id": {"type": "string", "pattern": "^CLM-[0-9]{5}$"},
+    "verdict_status": {
+      "type": "string",
+      "enum": ["SUPPORTED", "NOT_FALSIFIED", "STRONGLY_SUPPORTED", "INCONCLUSIVE", "FALSIFIED"]
+    },
+    "evidence_state": {
+      "type": "object",
+      "description": "Summary of the epistemic evidence backing the verdict (counts of experiments, replications, critiques, etc.)."
+    },
+    "rationale": {"type": "string"},
+    "human_reviewed": {"type": "boolean"},
+    "dissent": {"type": "array", "items": {"type": "string"}, "description": "Recorded disagreement from any agent; verdicts do not erase minority positions."}
+  }
+}

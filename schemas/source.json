@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "srmae/schemas/source.json",
+  "title": "Source",
+  "description": "A retrievable source of claims. ACCESSIBILITY (can we open it) is tracked separately from SOURCE QUALITY (is it trustworthy). Sci-Hub or any mirror is an accessibility channel ONLY and MUST NOT contribute to any quality/credibility score. If no retrievable identifier (doi/url) exists, mark retrievable=false and epistemic value UNKNOWN; NEVER invent a DOI/URL.",
+  "type": "object",
+  "required": ["id", "version", "created_at", "created_by", "provenance", "source_id", "title", "source_type", "retrievable"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^SRC-[0-9]{5}$"},
+    "source_id": {"type": "string", "pattern": "^SRC-[0-9]{5}$", "description": "Alias of id."},
+    "version": {"type": "integer", "minimum": 1},
+    "created_at": {"type": "string"},
+    "created_by": {"type": "string"},
+    "provenance": {"type": "array", "items": {"type": "string"}},
+    "title": {"type": "string"},
+    "authors": {"type": "array", "items": {"type": "string"}},
+    "doi": {"type": ["string", "null"], "description": "Real DOI only. null if none. Never fabricated."},
+    "url": {"type": ["string", "null"]},
+    "retrievable": {"type": "boolean", "description": "Was a real identifier (doi/url) resolved? If false the source is UNKNOWN."},
+    "source_type": {
+      "type": "string",
+      "enum": ["peer_reviewed", "preprint", "thesis", "technical_report", "dataset", "conference_paper", "review_article", "blog", "forum", "secondary"]
+    },
+    "publisher": {"type": ["string", "null"]},
+    "publication_date": {"type": ["string", "null"]},
+    "retrieved_at": {"type": ["string", "null"]},
+    "claims_extracted": {"type": "array", "items": {"type": "string", "pattern": "^CLM-[0-9]{5}$"}},
+    "methodology_summary": {"type": ["string", "null"]},
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "supporting_claims": {"type": "array", "items": {"type": "string", "pattern": "^CLM-[0-9]{5}$"}},
+    "contradicting_claims": {"type": "array", "items": {"type": "string", "pattern": "^CLM-[0-9]{5}$"}},
+    "accessibility": {
+      "type": "object",
+      "description": "SEPARATE from quality. Where/how the full text was reached. Never feeds quality scores.",
+      "additionalProperties": false,
+      "properties": {
+        "open_access": {"type": "boolean"},
+        "access_channel": {"type": "string", "description": "e.g. publisher, institutional_repo, preprint_server, mirror. A mirror is NOT a quality signal."},
+        "full_text_available": {"type": "boolean"}
+      }
+    },
+    "quality_assessment": {
+      "type": "object",
+      "description": "Every score MUST be a justified object {score, reasoning, evidence, uncertainty}; a bare number is not accepted. peer_review is a boolean fact, not a score.",
+      "required": ["peer_review", "methodological_quality", "reproducibility", "independence", "overall"],
+      "additionalProperties": false,
+      "properties": {
+        "peer_review": {"type": "boolean"},
+        "methodological_quality": {"$ref": "#/definitions/justifiedScore"},
+        "reproducibility": {"$ref": "#/definitions/justifiedScore"},
+        "independence": {"$ref": "#/definitions/justifiedScore"},
+        "overall": {"$ref": "#/definitions/justifiedScore"}
+      }
+    }
+  },
+  "definitions": {
+    "justifiedScore": {
+      "type": "object",
+      "required": ["score", "reasoning", "evidence", "uncertainty"],
+      "additionalProperties": false,
+      "properties": {
+        "score": {"type": "number", "minimum": 0, "maximum": 1},
+        "reasoning": {"type": "string"},
+        "evidence": {"type": "array", "items": {"type": "string"}},
+        "uncertainty": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    }
+  }
+}

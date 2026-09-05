@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "srmae/schemas/hypothesis.json",
+  "title": "Hypothesis",
+  "description": "A testable, falsifiable proposition. A hypothesis is NEVER a fact until experimentally supported; it is emitted with epistemic value kind HYPOTHESIS.",
+  "type": "object",
+  "required": ["id", "version", "created_at", "created_by", "provenance", "statement", "falsification_criteria", "predictions"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^HYP-[0-9]{5}$"},
+    "version": {"type": "integer", "minimum": 1},
+    "created_at": {"type": "string"},
+    "created_by": {"type": "string"},
+    "provenance": {"type": "array", "items": {"type": "string"}},
+    "statement": {"type": "string"},
+    "rationale": {"type": "string"},
+    "assumptions": {"type": "array", "items": {"type": "string"}},
+    "predictions": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "observable_variables": {"type": "array", "items": {"type": "string"}},
+    "falsification_criteria": {"type": "array", "items": {"type": "string"}, "minItems": 1, "description": "A hypothesis with no falsification criteria is rejected as non-scientific."},
+    "potential_confounders": {"type": "array", "items": {"type": "string"}},
+    "expected_outcomes": {"type": "array", "items": {"type": "string"}},
+    "alternative_explanations": {"type": "array", "items": {"type": "string"}}
+  }
+}

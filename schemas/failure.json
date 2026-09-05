@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "srmae/schemas/failure.json",
+  "title": "Failure",
+  "description": "A recorded failure. Failures are EVIDENCE and are never deleted. changes_conclusions flags whether this failure invalidates a prior verdict.",
+  "type": "object",
+  "required": ["id", "version", "created_at", "created_by", "provenance", "type", "what", "why", "reproducible", "changes_conclusions"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^FLR-[0-9]{5}$"},
+    "version": {"type": "integer", "minimum": 1},
+    "created_at": {"type": "string"},
+    "created_by": {"type": "string"},
+    "provenance": {"type": "array", "items": {"type": "string"}},
+    "type": {
+      "type": "string",
+      "enum": ["SCIENTIFIC", "EXPERIMENTAL", "REPRODUCIBILITY", "STATISTICAL", "TECHNICAL", "TOOL", "SOURCE", "AGENT", "COORDINATION", "HUMAN_BLOCK", "CAPABILITY_LIMITATION"]
+    },
+    "what": {"type": "string"},
+    "why": {"type": "string"},
+    "impact": {"type": ["string", "null"]},
+    "affected": {"type": "array", "items": {"type": "string"}},
+    "resolution": {"type": ["string", "null"]},
+    "reproducible": {"type": "boolean"},
+    "changes_conclusions": {"type": "boolean"}
+  }
+}

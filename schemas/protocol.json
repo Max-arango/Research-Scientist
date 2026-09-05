@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "srmae/schemas/protocol.json",
+  "title": "Protocol",
+  "description": "Experimental design authored BEFORE any experiment runs. inferential_justification must argue the design actually answers the research_question.",
+  "type": "object",
+  "required": ["id", "version", "created_at", "created_by", "provenance", "research_question", "design", "success_criteria", "failure_criteria", "falsification_criteria", "inferential_justification"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^PRO-[0-9]{5}$"},
+    "version": {"type": "integer", "minimum": 1},
+    "created_at": {"type": "string"},
+    "created_by": {"type": "string"},
+    "provenance": {"type": "array", "items": {"type": "string"}},
+    "research_question": {"type": "string"},
+    "hypothesis_id": {"type": ["string", "null"], "pattern": "^HYP-[0-9]{5}$"},
+    "independent_variables": {"type": "array", "items": {"type": "string"}},
+    "dependent_variables": {"type": "array", "items": {"type": "string"}},
+    "control_variables": {"type": "array", "items": {"type": "string"}},
+    "confounders": {"type": "array", "items": {"type": "string"}},
+    "design": {"type": "string"},
+    "measurements": {"type": "array", "items": {"type": "string"}},
+    "metrics": {"type": "array", "items": {"type": "string"}},
+    "sample_size": {"type": ["integer", "string", "null"]},
+    "baseline": {"type": ["string", "null"]},
+    "controls": {"type": "array", "items": {"type": "string"}},
+    "success_criteria": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "failure_criteria": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "falsification_criteria": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "inferential_justification": {"type": "string", "description": "Does this experiment actually answer the question? Required prose."}
+  }
+}

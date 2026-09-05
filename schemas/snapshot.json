@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "srmae/schemas/snapshot.json",
+  "title": "Snapshot",
+  "description": "Immutable state capture at the end of a research loop. Used to rewind loops and to explain 'why did the system conclude this' at a point in time.",
+  "type": "object",
+  "required": ["id", "version", "created_at", "created_by", "provenance", "loop_id", "ts"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^SNP-[0-9]{5}$"},
+    "version": {"type": "integer", "minimum": 1},
+    "created_at": {"type": "string"},
+    "created_by": {"type": "string"},
+    "provenance": {"type": "array", "items": {"type": "string"}},
+    "loop_id": {"type": "string"},
+    "ts": {"type": "string"},
+    "claims": {"type": "array", "items": {"type": "string"}},
+    "hypotheses": {"type": "array", "items": {"type": "string"}},
+    "experiments": {"type": "array", "items": {"type": "string"}},
+    "results": {"type": "array", "items": {"type": "string"}},
+    "failures": {"type": "array", "items": {"type": "string"}},
+    "agent_decisions": {"type": "array", "items": {"type": "object"}},
+    "human_decisions": {"type": "array", "items": {"type": "object"}},
+    "open_questions": {"type": "array", "items": {"type": "string"}},
+    "evidence_deltas": {"type": "array", "items": {"type": "object"}},
+    "next_actions": {"type": "array", "items": {"type": "string"}}
+  }
+}

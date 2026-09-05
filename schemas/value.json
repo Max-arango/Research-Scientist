@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "srmae/schemas/value.json",
+  "title": "Value",
+  "description": "An epistemically-tagged value. A Value of kind FACT or RESULT with empty support[] is INVALID.",
+  "type": "object",
+  "required": ["kind", "content", "support"],
+  "additionalProperties": false,
+  "properties": {
+    "kind": {
+      "type": "string",
+      "enum": ["FACT", "INFERENCE", "HYPOTHESIS", "RESULT", "INTERPRETATION", "OPINION", "UNKNOWN", "UNCERTAIN", "CONTRADICTED"]
+    },
+    "content": {
+      "description": "The asserted content. Absent -> use UNKNOWN; disputed -> UNCERTAIN; conflicting -> CONTRADICTED."
+    },
+    "support": {
+      "type": "array",
+      "description": "Ids of the objects (SRC/EXP/RES/...) that back this value. FACT/RESULT require >=1.",
+      "items": {"type": "string"}
+    },
+    "note": {"type": "string"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"kind": {"enum": ["FACT", "RESULT"]}}},
+      "then": {"properties": {"support": {"minItems": 1}}}
+    }
+  ]
+}

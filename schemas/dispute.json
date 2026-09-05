@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "srmae/schemas/dispute.json",
+  "title": "Dispute",
+  "description": "A recorded disagreement between agents. Disputes are never silently resolved; resolution records how (and whether by human).",
+  "type": "object",
+  "required": ["id", "version", "created_at", "created_by", "provenance", "topic", "agents", "positions"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {"type": "string", "pattern": "^DSP-[0-9]{5}$"},
+    "version": {"type": "integer", "minimum": 1},
+    "created_at": {"type": "string"},
+    "created_by": {"type": "string"},
+    "provenance": {"type": "array", "items": {"type": "string"}},
+    "topic": {"type": "string"},
+    "agents": {"type": "array", "items": {"type": "string"}, "minItems": 2},
+    "positions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["agent", "position"],
+        "additionalProperties": false,
+        "properties": {
+          "agent": {"type": "string"},
+          "position": {"type": "string"},
+          "evidence": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "evidence": {"type": "array", "items": {"type": "string"}},
+    "resolution": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "outcome": {"type": "string"},
+        "resolved_by": {"type": "string", "description": "agent id or 'human'"},
+        "rationale": {"type": "string"},
+        "ts": {"type": "string"}
+      }
+    }
+  }
+}
