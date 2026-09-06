@@ -20,6 +20,7 @@ from .failures import log_failure, FAILURE_TYPES
 from .disputes import Dispute, needs_human
 from . import metrics
 from . import events
+from .validate import validate, SchemaError
 
 __all__ = [
     "Store", "IdGen", "VALID_PREFIXES",
@@ -34,4 +35,5 @@ __all__ = [
     "log_failure", "FAILURE_TYPES",
     "Dispute", "needs_human",
     "metrics", "events",
+    "validate", "SchemaError",
 ]

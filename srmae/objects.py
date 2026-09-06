@@ -35,8 +35,13 @@ def is_valid_value(v: Value) -> bool:
     return True
 
 
-def new_object(store, idgen, prefix: str, by: str, ts: str = _DEFAULT_TS, **fields) -> dict:
-    """Stamp and persist a new object. ts is passed in (never datetime.now)."""
+def new_object(store, idgen, prefix: str, by: str, ts: str = _DEFAULT_TS,
+               *, validate: bool = False, **fields) -> dict:
+    """Stamp and persist a new object. ts is passed in (never datetime.now).
+
+    If `validate=True`, run the spine-schema validator before persisting and
+    raise SchemaError on missing required keys or enum violations.
+    """
     obj = {
         "id": idgen.next(prefix),
         "version": 1,
@@ -45,5 +50,10 @@ def new_object(store, idgen, prefix: str, by: str, ts: str = _DEFAULT_TS, **fiel
         "provenance": [],
     }
     obj.update(fields)
+    if validate:
+        # Local import keeps this module free of a hard dependency for
+        # callers that never opt in.
+        from .validate import validate as _validate
+        _validate(store.root, prefix, obj)
     store.put(obj)
     return obj
