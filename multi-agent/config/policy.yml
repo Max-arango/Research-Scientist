@@ -1,0 +1,48 @@
+# Multi-Agent Engineering — defaults.
+# Override per project by editing in place.
+
+loop:
+  max_iterations: 8
+  stall_threshold: 2
+  min_executions: 3
+
+# Which gates are required by task class. Planner sets; Orchestrator confirms.
+gates_required:
+  bug_fix:       [qa]
+  feature:       [qa, appsec]
+  refactor:      [qa]
+  infra:         [qa, appsec]
+  data:          [qa, appsec]
+  auth:          [qa, appsec, red_team]
+  crypto:        [qa, appsec, red_team]
+  dependency_bump: [qa, appsec]
+
+hitl:
+  checkpoints: [CODE_CHANGE, MAJOR_REFACTOR, DEPLOY]
+  default_level: REVIEW
+  require_approval_on:
+    - auth
+    - crypto
+    - external_call
+    - irreversible
+  blocked_on:
+    - unsafe
+    - prod_data_leak
+    - secrets_in_logs
+
+severity_gates:
+  CRITICAL:   never_to_production
+  HIGH:       never_to_production_without_explicit_human_override
+  MEDIUM:     requires_mitigation_or_explicit_acceptance
+  LOW:        acceptable_with_documentation
+  INFO:       informational
+
+stall_detection:
+  same_finding_signature_repeats: 2   # after K loops with same sig → stall
+  contradicting_agents: 2            # K turns of unresolved dispute → stall
+  no_progress_iterations: 2          # K loops with zero PROGRESS delta → stall
+
+evidence:
+  require_test_run_for_pass: true
+  require_repro_for_fail: true
+  require_threat_model_for_auth_change: true

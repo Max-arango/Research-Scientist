@@ -1,0 +1,25 @@
+"""Event type constants and emitter."""
+from __future__ import annotations
+
+SOURCE_FOUND = "SOURCE_FOUND"
+CLAIM_CREATED = "CLAIM_CREATED"
+CLAIM_CONTRADICTED = "CLAIM_CONTRADICTED"
+HYPOTHESIS_CREATED = "HYPOTHESIS_CREATED"
+PROTOCOL_APPROVED = "PROTOCOL_APPROVED"
+EXPERIMENT_STARTED = "EXPERIMENT_STARTED"
+EXPERIMENT_COMPLETED = "EXPERIMENT_COMPLETED"
+RESULT_CREATED = "RESULT_CREATED"
+AUDIT_COMPLETED = "AUDIT_COMPLETED"
+CRITIQUE_CREATED = "CRITIQUE_CREATED"
+VERDICT_PROPOSED = "VERDICT_PROPOSED"
+HUMAN_APPROVAL_REQUIRED = "HUMAN_APPROVAL_REQUIRED"
+HUMAN_APPROVED = "HUMAN_APPROVED"
+LOOP_STARTED = "LOOP_STARTED"
+LOOP_COMPLETED = "LOOP_COMPLETED"
+
+
+def emit(store, type: str, ts: str, **payload) -> dict:
+    """Append an event to the store and return it. ts passed in for reproducibility."""
+    ev = {"type": type, "ts": ts, **payload}
+    store.append_event(ev)
+    return ev
