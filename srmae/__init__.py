@@ -21,6 +21,7 @@ from .disputes import Dispute, needs_human
 from . import metrics
 from . import events
 from .validate import validate, SchemaError
+from .sources import source_from_record
 
 __all__ = [
     "Store", "IdGen", "VALID_PREFIXES",
@@ -36,4 +37,5 @@ __all__ = [
     "Dispute", "needs_human",
     "metrics", "events",
     "validate", "SchemaError",
+    "source_from_record",
 ]

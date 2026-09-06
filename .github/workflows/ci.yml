@@ -24,3 +24,4 @@ jobs:
           python3 examples/demo_replication.py
           python3 examples/demo_adversarial.py
           python3 examples/demo_failure_heavy.py
+          python3 examples/demo_researcher_live.py   # self-SKIPs if CI has no network
