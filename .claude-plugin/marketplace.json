@@ -1,0 +1,14 @@
+{
+  "name": "research-scientist",
+  "owner": {
+    "name": "Max Arango"
+  },
+  "plugins": [
+    {
+      "name": "research-scientist",
+      "source": "./",
+      "description": "Scientific Research OS + general software-engineering MAE — two multi-agent skills on one evidence-driven, stdlib-only core.",
+      "version": "1.0.0"
+    }
+  ]
+}

@@ -1,17 +1,36 @@
-# Research-Scientist — two multi-agent skills for Claude Code
+# Research-Scientist — a Claude Code plugin
 
-Two complementary multi-agent skills that share one stdlib-only Python core:
+One installable plugin bundling **two multi-agent skills** on one stdlib-only Python core:
 
-- **`scientific-research-mae/`** — a *Scientific Research Operating System*: evidence-driven,
+- **`scientific-research-mae`** — a *Scientific Research Operating System*: evidence-driven,
   human-in-the-loop, provenance-tracked research harness.
-- **`multi-agent/`** — a general *software-engineering* multi-agent pipeline (plan → build →
-  QA → security → decision), reusing the same core.
+- **`multi-agent-engineering`** — a general *software-engineering* multi-agent pipeline
+  (plan → build → QA → security → decision), reusing the same core.
 
 Both rest on one non-negotiable principle:
 
 > **A claim is not true because an agent says so.** It grows stronger only when independent
 > evidence survives attempts to falsify it. LLM output is never evidence; nothing is fabricated —
 > no invented papers, DOIs, datasets, or measurements.
+
+## Install (Claude Code)
+
+The repo is its own plugin **marketplace**. Two lines:
+
+```
+/plugin marketplace add Max-arango/Research-Scientist
+/plugin install research-scientist@research-scientist
+```
+
+That installs both skills. Invoke them with:
+
+```
+/research-scientist:scientific-research-mae run "Does intermittent fasting improve insulin sensitivity?"
+/research-scientist:multi-agent-engineering run "add a /health endpoint to the API"
+```
+
+To update later: `/plugin marketplace update research-scientist`. No Python install step — the
+core is standard-library only and runs as bundled scripts.
 
 ---
 
@@ -338,7 +357,7 @@ mitigate or document`, `LOW → document`.
 
 ```bash
 # --- Scientific Research OS ---
-cd scientific-research-mae
+cd skills/scientific-research-mae
 python3 -m unittest discover -s tests -q          # 73 tests, stdlib only
 python3 examples/demo_research.py                 # deterministic end-to-end synthetic run
 python3 examples/demo_replication.py              # replication → REPRODUCED
@@ -351,12 +370,12 @@ python3 scripts/litsearch.py search "intermittent fasting insulin" --source cros
 python3 scripts/litsearch.py verify 10.1016/j.cell.2015.09.020
 
 # --- General software-engineering MAE ---
-cd ../multi-agent
+cd ../multi-agent-engineering
 python3 -m unittest tests.test_smoke -v           # 10 smoke tests
 
-# --- Inside Claude Code, invoke the skills ---
-# /scientific-research-mae run "Does intermittent fasting improve insulin sensitivity?"
-# /multi-agent-engineering run "add a /health endpoint to the API"
+# --- Inside Claude Code, invoke the skills (after installing the plugin) ---
+# /research-scientist:scientific-research-mae run "Does intermittent fasting improve insulin sensitivity?"
+# /research-scientist:multi-agent-engineering run "add a /health endpoint to the API"
 ```
 
 ---
@@ -364,25 +383,31 @@ python3 -m unittest tests.test_smoke -v           # 10 smoke tests
 ## Repository layout
 
 ```
-Research-Scientist/
+Research-Scientist/                  ← the plugin repo IS its own marketplace
+├── .claude-plugin/
+│   ├── marketplace.json             marketplace manifest (lists this plugin)
+│   └── plugin.json                  plugin manifest (bundles both skills)
 ├── README.md                        this file
-├── scientific-research-mae/         Scientific Research OS
-│   ├── SKILL.md                     orchestrator operating protocol
-│   ├── agents/                      11 agent contracts
-│   ├── schemas/                     13 Draft-07 JSON Schemas
-│   ├── protocols/                   5 operating procedures
-│   ├── srmae/                       stdlib core (storage, epistemic, evidence,
-│   │                                provenance, snapshots, hitl, safety, failures,
-│   │                                disputes, metrics, validate, sources, …)
-│   ├── scripts/litsearch.py         bundled live literature tool
-│   ├── reference/                   loop-engine + search-strategy (progressive disclosure)
-│   ├── examples/                    5 deterministic / live demos
-│   ├── tests/                       73 tests
-│   └── docs/ARCHITECTURE.md         the map + known limitations
-├── multi-agent/                     general software-engineering MAE
-│   ├── SKILL.md · agents/ (7) · config/policy.yml · templates/
-│   ├── core/                        vendored srmae core
-│   └── tests/test_smoke.py
+├── LICENSE                          MIT
+├── .github/workflows/ci.yml         CI: both skills, Python 3.11–3.13
+├── skills/
+│   ├── scientific-research-mae/     Scientific Research OS
+│   │   ├── SKILL.md                 orchestrator operating protocol (+ frontmatter)
+│   │   ├── agents/                  11 agent contracts
+│   │   ├── schemas/                 13 Draft-07 JSON Schemas
+│   │   ├── protocols/               5 operating procedures
+│   │   ├── srmae/                   stdlib core (storage, epistemic, evidence,
+│   │   │                            provenance, snapshots, hitl, safety, failures,
+│   │   │                            disputes, metrics, validate, sources, …)
+│   │   ├── scripts/litsearch.py     bundled live literature tool
+│   │   ├── reference/               loop-engine + search-strategy (progressive disclosure)
+│   │   ├── examples/                5 deterministic / live demos
+│   │   ├── tests/                   73 tests
+│   │   └── docs/ARCHITECTURE.md     the map + known limitations
+│   └── multi-agent-engineering/     general software-engineering MAE
+│       ├── SKILL.md · agents/ (7) · config/policy.yml · templates/
+│       ├── core/                    vendored srmae core
+│       └── tests/test_smoke.py      10 smoke tests
 └── .claude/                         build audit trail (state · findings · decisions)
 ```
 

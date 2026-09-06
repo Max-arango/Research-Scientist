@@ -1,0 +1,12 @@
+{
+  "name": "research-scientist",
+  "version": "1.0.0",
+  "displayName": "Research Scientist",
+  "description": "Two multi-agent skills on one evidence-driven core: a Scientific Research Operating System (HITL, provenance, real literature retrieval, falsification) and a general software-engineering MAE pipeline. Stdlib-only Python core; nothing fabricated.",
+  "author": {
+    "name": "Max Arango"
+  },
+  "homepage": "https://github.com/Max-arango/Research-Scientist",
+  "repository": "https://github.com/Max-arango/Research-Scientist",
+  "license": "MIT"
+}

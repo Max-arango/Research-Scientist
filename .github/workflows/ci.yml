@@ -1,12 +1,15 @@
-name: SR-MAE CI
+name: CI
 on:
   push:
     branches: [main]
   pull_request:
 
 jobs:
-  test:
+  research-mae:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: skills/scientific-research-mae
     strategy:
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
@@ -25,3 +28,16 @@ jobs:
           python3 examples/demo_adversarial.py
           python3 examples/demo_failure_heavy.py
           python3 examples/demo_researcher_live.py   # self-SKIPs if CI has no network
+
+  multi-agent:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: skills/multi-agent-engineering
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run smoke tests
+        run: python3 -m unittest tests.test_smoke -v

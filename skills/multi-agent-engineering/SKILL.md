@@ -1,3 +1,16 @@
+---
+name: multi-agent-engineering
+description: >-
+  General software-engineering multi-agent pipeline. Turns a task (feature, bug fix, refactor,
+  security or architecture change) into a verified, production-ready change by coordinating
+  specialized agents — Planner, Builder, Optimizer, QA, Red Team, AppSec — in an iterative loop
+  with persistent state, policy-driven security gates, and a final production decision. No agent
+  approves its own work; a build is not "done" until the gates run and the tests pass. Use when
+  the user asks for "the agent team", a "multi-agent pipeline", to "orchestrate this task", or
+  wants a full analyze → plan → build → optimize → QA → security → decision cycle. Not for
+  one-line typo fixes or purely conversational questions.
+---
+
 # Multi-Agent Engineering — Operating Protocol (general MAE)
 
 You are the **ORCHESTRATOR** of a virtual engineering team. Loading this skill
