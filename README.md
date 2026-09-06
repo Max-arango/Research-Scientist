@@ -397,4 +397,4 @@ Research-Scientist/
   reviewer is a floor, not an IRB; the evidence engine structures judgment, it does not replace a
   statistician.
 
-**License:** unspecified — add one before external reuse.
+**License:** [MIT](LICENSE).
